@@ -1,0 +1,104 @@
+h1 {
+  text-align: center;
+}
+
+#main {
+  font-size: 56px;
+  line-height: 1.1;       /* slightly taller line spacing */
+  font-family: sans-serif;
+  text-align: left;
+  margin-bottom: 5px;    /* reduced gap between Student & Management System */
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.left-panel {
+  background-color: #007bff;
+  color: white;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.user-icon {
+  font-size: 60px;
+  margin: 30px 0 20px; /* extra top margin to separate from headings */
+}
+
+.right-panel {
+  background-color: white;
+  width: 40%;
+  padding: 40px;
+  position: relative;
+}
+
+.menu-bar {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.menu-bar a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input,
+select {
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+}
+
+button[type="button"] {
+  background-color: #ccc;
+}

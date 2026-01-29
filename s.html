@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Combined Student Management System</title>
+
+  <!-- Combined CSS files -->
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="s.css">
+  <link rel="stylesheet" href="t.css">
+  <link rel="stylesheet" href="ad.css">
+  <link rel="stylesheet" href="studenthome.css">
+  <link rel="stylesheet" href="teacherhome.css">
+  <link rel="stylesheet" href="admin.css">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background: #f5f5f5; }
+    section { display: block; }
+
+    /* --- Login Page (split two-column) --- */
+    #login-page .container { display: flex; min-height: 100vh; }
+    #login-page .left-panel { flex: 1; background: #2c3e50; color: white;
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+        padding: 40px; }
+    #login-page .left-panel h1 { font-size: 36px; margin-bottom: 10px; }
+    #login-page .left-panel .user-icon { font-size: 64px; margin: 20px 0; }
+    #login-page .right-panel { flex: 1; background: white;
+        display: flex; flex-direction: column; justify-content: center; padding: 40px; }
+    #login-page .right-panel h1 { margin-bottom: 30px; font-size: 32px; }
+    #login-page form { display: flex; flex-direction: column; }
+    #login-page form label { margin: 10px 0 5px; }
+    #login-page form input, #login-page form select { padding: 10px; font-size: 16px; margin-bottom: 15px; }
+    #login-page .button-group { margin-top: 10px; display: flex; gap: 10px; }
+    #login-page .button-group .btn { flex: 1; padding: 10px; background: #3498db; color: white;
+        border: none; cursor: pointer; font-size: 16px; }
+    #login-page .button-group button[type="button"] { flex: 1; padding: 10px;
+        background: #ccc; border: none; cursor: pointer; font-size: 16px; }
+
+    /* Dashboard layout (common) */
+    .dashboard-container { display: flex; min-height: 100vh; }
+    .dashboard-container aside.sidebar { width: 200px; background: #34495e; color: white; padding: 20px; }
+    .dashboard-container aside.sidebar h2, .dashboard-container aside.sidebar h1 { margin-bottom: 20px; }
+    .dashboard-container aside.sidebar ul { list-style: none; padding: 0; }
+    .dashboard-container aside.sidebar ul li { margin: 10px 0; cursor: pointer; }
+    .dashboard-container main.main-content { flex: 1; padding: 30px; background: white; }
+    .panel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+    .panel-grid .panel { background: #ecf0f1; padding: 20px; border-radius: 8px; text-align: center; }
+    .section-title { text-align: center; font-size: 32px; margin-bottom: 25px; font-weight: bold; }
+
+    /* Hide all content sections by default */
+    #student-home, #student-dashboard,
+    #teacher-home, #teacher-dashboard,
+    #admin-dashboard-page {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN / INDEX PAGE -->
+  <section id="login-page">
+    <div class="container">
+      <div class="left-panel">
+        <h1>Student</h1>
+        <h1>Management System</h1>
+        <div class="user-icon">👤</div>
+        <h2>Welcome!</h2>
+      </div>
+      <div class="right-panel">
+        <h1>Login Page</h1>
+        <form id="loginForm">
+          <label for="username">User name</label>
+          <input type="text" id="username" name="username" placeholder="username" required>
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="password" required>
+          <label for="usertype">User Type</label>
+          <select id="usertype" name="usertype" required>
+            <option value="select" selected disabled>Select user type</option>
+            <option value="admin">Admin</option>
+            <option value="teacher">Teacher</option>
+            <option value="student">Student</option>
+          </select>
+          <div class="button-group">
+            <button type="submit" class="btn">SUBMIT</button>
+            <button type="button" onclick="resetForm()">CLOSE</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- STUDENT HOME PAGE -->
+  <section id="student-home">
+    <div class="dashboard-container">
+      <aside class="sidebar">
+        <h2>Student Home</h2>
+        <ul>
+          <li id="go-student-dashboard">Dashboard</li>
+          <li>Profile</li>
+          <li>Update Profile</li>
+          <li>Delete Account</li>
+          <li id="student-logout">Logout</li>
+        </ul>
+      </aside>
+      <main class="main-content">
+        <div class="section-title">Student Home Page</div>
+        <div class="panel" id="view-profile">
+          <h3>My Profile</h3>
+          <p><strong>Name:</strong> Sachin Jat</p>
+          <p><strong>Email:</strong> sachin@gmail.com</p>
+          <p><strong>Course:</strong> B.Tech Computer Science</p>
+          <p><strong>Roll No:</strong> 340</p>
+        </div>
+        <div class="panel" id="update-profile">
+          <h3>Update Profile</h3>
+          <form id="updateFormStudent">
+            <label for="name">Name</label>
+            <input type="text" id="name" value="Sachin Jat">
+            <label for="email">Email</label>
+            <input type="email" id="email" value="sachin@gmail.com">
+            <label for="course">Course</label>
+            <input type="text" id="course" value="B.Tech Computer Science">
+            <button type="submit">Save Changes</button>
+          </form>
+        </div>
+        <div class="panel" id="delete-account">
+          <h3>Delete Account</h3>
+          <p>⚠️ Once deleted, your account cannot be recovered.</p>
+          <button class="delete-btn" onclick="deleteStudentAccount()">Delete My Account</button>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <!-- STUDENT DASHBOARD PAGE -->
+  <section id="student-dashboard">
+    <div class="section-title">STUDENT DASHBOARD</div>
+    <div class="dashboard-container">
+      <aside class="sidebar">
+        <h2>LNCT</h2>
+        <ul>
+          <li id="student-dashboard-home">Home</li>
+          <li>Attendance</li>
+          <li>Marks</li>
+          <li>Assignments</li>
+          <li>Library Info</li>
+          <li>Fees</li>
+          <li>Birthdays</li>
+          <li>Notices</li>
+          <li>Change Password</li>
+        </ul>
+      </aside>
+      <main class="main-content">
+        <section class="panel-grid">
+          <div class="panel"><h3>Fees Due</h3></div>
+          <div class="panel"><h3>Registration</h3></div>
+          <div class="panel"><h3>Attendance Status</h3></div>
+          <div class="panel"><h3>Assignment</h3></div>
+          <div class="panel"><h3>Exam</h3></div>
+          <div class="panel"><h3>Result</h3></div>
+          <div class="panel"><h3>Notice</h3></div>
+          <div class="panel"><h3>Marks</h3></div>
+          <div class="panel"><h3>Library Info</h3></div>
+          <div class="panel"><h3>Upcoming Fees</h3></div>
+        </section>
+      </main>
+    </div>
+  </section>
+
+  <!-- TEACHER HOME PAGE -->
+  <section id="teacher-home">
+    <div class="dashboard-container">
+      <aside class="sidebar">
+        <h2>Teacher Home</h2>
+        <ul>
+          <li id="go-teacher-dashboard">Dashboard</li>
+          <li>Profile</li>
+          <li>Update Profile</li>
+          <li>Delete Account</li>
+          <li id="teacher-logout">Logout</li>
+        </ul>
+      </aside>
+      <main class="main-content">
+        <div class="section-title">Teacher Home Page</div>
+        <div class="panel" id="view-profile-teacher">
+          <h3>My Profile</h3>
+          <p><strong>Name:</strong> Prajeet Sharma</p>
+          <p><strong>Email:</strong> sharma@gmail.com</p>
+          <p><strong>Department:</strong> Computer Science</p>
+          <p><strong>Employee ID:</strong> T-9876</p>
+        </div>
+        <div class="panel" id="update-profile-teacher">
+          <h3>Update Profile</h3>
+          <form id="updateFormTeacher">
+            <label for="tname">Name</label>
+            <input type="text" id="tname" value="Prajeet Sharma">
+            <label for="temail">Email</label>
+            <input type="email" id="temail" value="sharma@gmail.com">
+            <label for="department">Department</label>
+            <input type="text" id="department" value="Computer Science">
+            <button type="submit">Save Changes</button>
+          </form>
+        </div>
+        <div class="panel" id="delete-account-teacher">
+          <h3>Delete Account</h3>
+          <p>⚠️ Once deleted, your account cannot be recovered.</p>
+          <button class="delete-btn" onclick="deleteTeacherAccount()">Delete My Account</button>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <!-- TEACHER DASHBOARD PAGE -->
+  <section id="teacher-dashboard">
+    <div class="section-title">TEACHER DASHBOARD</div>
+    <div class="dashboard-container">
+      <aside class="sidebar">
+        <h2>LNCT</h2>
+        <ul>
+          <li id="teacher-dashboard-home">Home</li>
+          <li>My Students</li>
+          <li>Assignments</li>
+          <li>Marks</li>
+          <li>Attendance</li>
+          <li>Notices</li>
+          <li>Change Password</li>
+          <li id="go-admin-dashboard">Home</li>
+        </ul>
+      </aside>
+      <main class="main-content">
+        <section class="panel-grid">
+          <div class="panel"><h3>My Students</h3></div>
+          <div class="panel"><h3>Assignments</h3></div>
+          <div class="panel"><h3>Marks</h3></div>
+          <div class="panel"><h3>Attendance</h3></div>
+          <div class="panel"><h3>Notices</h3></div>
+        </section>
+      </main>
+    </div>
+  </section>
+
+  <!-- ADMIN DASHBOARD PAGE -->
+  <section id="admin-dashboard-page">
+    <div class="dashboard-container">
+      <aside class="sidebar">
+        <h1>LNCT Admin Panel</h1>
+        <ul>
+          <li>Manage Students</li>
+          <li>Manage Teachers</li>
+          <li>Fee Structure</li>
+          <li>Reports</li>
+          <li>Attendance</li>
+          <li>Marks</li>
+          <li>Assignments</li>
+          <li>Library</li>
+          <li>Hostel</li>
+          <li>Transport</li>
+          <li>Examination</li>
+          <li>Notices</li>
+          <li>System Settings</li>
+          <li>Change Password</li>
+          <li id="admin-logout">Logout</li>
+        </ul>
+      </aside>
+      <main class="main-content">
+        <header>
+          <h1>Welcome Admin</h1>
+          <h2>Central control panel for school management</h2>
+        </header>
+        <section class="panel-grid">
+          <div class="panel"><h3>Manage Students</h3><p>Add, update or delete student records</p></div>
+          <div class="panel"><h3>Manage Teachers</h3><p>Register and manage teacher profiles</p></div>
+          <div class="panel"><h3>Fee Structure</h3><p>Define and update fee categories</p></div>
+          <div class="panel"><h3>Reports</h3><p>Generate attendance, marks, fee reports</p></div>
+          <div class="panel"><h3>Attendance</h3><p>Overall attendance stats</p></div>
+          <div class="panel"><h3>Marks</h3><p>Monitor student performance</p></div>
+          <div class="panel"><h3>Assignments</h3><p>Track assignment submissions</p></div>
+          <div class="panel"><h3>Library</h3><p>Manage issued/returned books</p></div>
+          <div class="panel"><h3>Hostel</h3><p>Room allocation & mess fees</p></div>
+          <div class="panel"><h3>Transport</h3><p>Bus routes and fee tracking</p></div>
+          <div class="panel"><h3>Examination</h3><p>Schedule exams & publish results</p></div>
+          <div class="panel"><h3>Notices</h3><p>Post announcements</p></div>
+          <div class="panel"><h3>System Settings</h3><p>Configure roles, permissions, backups</p></div>
+        </section>
+      </main>
+    </div>
+  </section>
+
+  <script>
+    // LOGIN FORM handling
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const userType = document.getElementById('usertype').value;
+
+      // Hide login page
+      document.getElementById('login-page').style.display = 'none';
+
+      // Hide all content pages
+      const pages = [
+        'student-home','student-dashboard',
+        'teacher-home','teacher-dashboard',
+        'admin-dashboard-page'
+      ];
+      pages.forEach(id => document.getElementById(id).style.display = 'none');
+
+      // Show appropriate page
+      if (userType === 'student') {
+        document.getElementById('student-home').style.display = 'block';
+      } else if (userType === 'teacher') {
+        document.getElementById('teacher-home').style.display = 'block';
+      } else if (userType === 'admin') {
+        document.getElementById('admin-dashboard-page').style.display = 'block';
+      } else {
+        alert('Please select a valid user type');
+        document.getElementById('login-page').style.display = 'flex';
+      }
+    });
+
+    // Navigation between Home <-> Dashboard for student
+    document.getElementById('go-student-dashboard').addEventListener('click', function(){
+      document.getElementById('student-home').style.display = 'none';
+      document.getElementById('student-dashboard').style.display = 'block';
+    });
+    document.getElementById('student-dashboard-home').addEventListener('click', function(){
+      document.getElementById('student-dashboard').style.display = 'none';
+      document.getElementById('student-home').style.display = 'block';
+    });
+
+    // Logout handlers
+    document.getElementById('student-logout').addEventListener('click', function(){
+      logoutToLogin();
+    });
+    document.getElementById('teacher-logout').addEventListener('click', function(){
+      logoutToLogin();
+    });
+    document.getElementById('admin-logout').addEventListener('click', function(){
+      logoutToLogin();
+    });
+
+    // Student — teacher navigation
+    document.getElementById('go-teacher-dashboard').addEventListener('click', function(){
+      document.getElementById('teacher-home').style.display = 'none';
+      document.getElementById('teacher-dashboard').style.display = 'block';
+    });
+    document.getElementById('teacher-dashboard-home').addEventListener('click', function(){
+      document.getElementById('teacher-dashboard').style.display = 'none';
+      document.getElementById('teacher-home').style.display = 'block';
+    });
+
+    function logoutToLogin(){
+      // hide all pages
+      const pages = [
+        'student-home','student-dashboard',
+        'teacher-home','teacher-dashboard',
+        'admin-dashboard-page','login-page'
+      ];
+      pages.forEach(id => document.getElementById(id).style.display = 'none');
+      // show login
+      document.getElementById('login-page').style.display = 'flex';
+    }
+
+    function resetForm(){
+      document.getElementById('loginForm').reset();
+    }
+
+    function deleteStudentAccount(){
+      if (confirm('Are you sure you want to delete your account?')) {
+        alert('Your account has been deleted.');
+        logoutToLogin();
+      }
+    }
+    function deleteTeacherAccount(){
+      if (confirm('Are you sure you want to delete your account?')) {
+        alert('Your account has been deleted.');
+        logoutToLogin();
+      }
+    }
+
+    // Handle update forms (just dummy alerts)
+    document.getElementById('updateFormStudent').addEventListener('submit', function(e){
+      e.preventDefault();
+      alert('Student profile updated successfully!');
+    });
+    document.getElementById('updateFormTeacher').addEventListener('submit', function(e){
+      e.preventDefault();
+      alert('Teacher profile updated successfully!');
+    });
+  </script>
+</body>
+</html>
+
